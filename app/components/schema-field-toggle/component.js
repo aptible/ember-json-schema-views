@@ -1,1 +1,1 @@
-export { default } from 'ember-json-schema/components/schema-field-toggle/component';
+export { default } from 'ember-json-schema-views/components/schema-field-toggle/component';

@@ -1,1 +1,1 @@
-export { default } from 'ember-json-schema/components/each-property/component';
+export { default } from 'ember-json-schema-views/components/each-property/component';
