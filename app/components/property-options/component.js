@@ -1,0 +1,1 @@
+export { default } from 'ember-json-schema-views/components/property-options/component';
