@@ -56,8 +56,10 @@ test('renders dependent properties', function(assert) {
   this.setProperties({ document, properties });
 
   this.render(hbs`
-    {{#each-property properties=properties document=document as |key property type|}}
-      {{component (concat 'schema-field-' type) key=key property=property document=document}}
+    {{#each-property properties=properties document=document as |key property type options|}}
+      {{#if options.isVisible}}
+        {{component (concat 'schema-field-' type) key=key property=property document=document}}
+      {{/if}}
     {{/each-property}}
   `);
 
