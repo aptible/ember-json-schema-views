@@ -136,7 +136,7 @@ test('can render flat schema document properties', function(assert) {
   this.setProperties({ document, properties });
 
   this.render(hbs`
-    {{#each-property properties=properties as |key property type|}}
+    {{#each-property properties=properties document=document as |key property type|}}
       {{component (concat 'schema-field-' type) key=key property=property document=document}}
     {{/each-property}}
   `);
@@ -159,7 +159,7 @@ test('can render nested schema document properties', function(assert) {
   this.setProperties({ document, properties });
 
   this.render(hbs`
-    {{#each-property properties=properties as |key property type|}}
+    {{#each-property properties=properties document=document as |key property type|}}
       {{component (concat 'schema-field-' type) key=key property=property document=document}}
     {{/each-property}}
   `);
