@@ -1,11 +1,9 @@
-{{#each propertyCollection as |property|}}
-  {{#property-options document=document property=property as |propertyOptions property document|}}
-    {{#if property.childProperties}}
-      {{#each-property properties=property.childProperties document=document as |childKey childProperty childType childOptions|}}
-        {{yield (concat (concat property.key '.') childKey) childProperty childType childOptions}}
-      {{/each-property}}
-    {{else}}
-      {{yield property.key property.property property.type propertyOptions}}
-    {{/if}}
-  {{/property-options}}
+{{#each propertyCollection as |propertyOptions|}}
+  {{#if propertyOptions.childProperties}}
+    {{#each-property properties=propertyOptions.childProperties document=propertyOptions.document as |childKey childProperty childType childOptions|}}
+      {{yield (concat (concat propertyOptions.key '.') childKey) childProperty childType childOptions}}
+    {{/each-property}}
+  {{else}}
+    {{yield propertyOptions.key propertyOptions.property propertyOptions.type propertyOptions}}
+  {{/if}}
 {{/each}}

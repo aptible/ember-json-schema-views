@@ -1,33 +1,23 @@
 import Ember from 'ember';
-
-export function getPropertyInputType(property) {
-  if (property.validValues && Array.isArray(property.validValues)) {
-    return 'select';
-  }
-
-  if (property.type === 'boolean') {
-    if (Ember.get(property, 'displayProperties.useToggle')) {
-      return 'toggle';
-    } else {
-      return 'radio';
-    }
-  }
-
-  return 'text';
-}
+import PropertyOptions from 'ember-json-schema-views/utils/property-options';
 
 export default Ember.Component.extend({
   tagName: '',
 
-  propertyCollection: Ember.computed('properties.[]', function() {
-    let propertyHash = this.get('properties');
-    let propertyKeys = Object.keys(propertyHash);
+  propertyCollection: Ember.computed('properties.[]', 'document', function() {
+    let { properties, document } = this.getProperties('properties', 'document');
+    let propertyKeys = Object.keys(properties);
 
     return propertyKeys.map((key) => {
-      let property = propertyHash[key];
-
-      return { key, property, type: getPropertyInputType(property),
-               childProperties: property.properties };
+      return new PropertyOptions({
+        key, document, property: properties[key]
+      });
     });
-  })
+  }),
+
+  willDestroyElement() {
+    this.get('propertyCollection').forEach((property) => {
+      property.teardown();
+    });
+  }
 });
