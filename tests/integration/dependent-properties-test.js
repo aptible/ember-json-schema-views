@@ -44,7 +44,7 @@ let schemaBody = {
   }
 };
 
-moduleForComponent('dependent-property', {
+moduleForComponent('each-property', {
   integration: true
 });
 

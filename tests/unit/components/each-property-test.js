@@ -22,8 +22,7 @@ test('it converts property hash into propertyCollection', function(assert) {
     zip: { type: 'string' }
   };
 
-  let document = { state: 'IN', city: 'Indianapolis', zip: '46202' };
-  let component = this.subject({ properties, document });
+  let component = this.subject({ properties });
   let propertyCollection = component.get('propertyCollection');
 
   assert.ok(Array.isArray(propertyCollection), 'is an array');
@@ -31,6 +30,4 @@ test('it converts property hash into propertyCollection', function(assert) {
   assert.equal(propertyCollection[0].key, 'state', 'properties include a key');
   assert.equal(propertyCollection[0].property.type, 'string', 'properties include a property');
   assert.equal(propertyCollection[0].type, 'text', 'properties include a type');
-  assert.deepEqual(propertyCollection[0].document, document, 'includes document');
-  assert.equal(propertyCollection[0].isVisible, true, 'includes visible option');
 });
