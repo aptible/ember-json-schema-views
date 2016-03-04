@@ -13,6 +13,10 @@ export function getPropertyInputType(property) {
     }
   }
 
+  if (property.type === 'array') {
+    return 'checkbox';
+  }
+
   return 'text';
 }
 
