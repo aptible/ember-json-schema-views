@@ -1,0 +1,14 @@
+{{#multiselect-checkboxes
+  tagName="div"
+  options=property.validValues
+  onchange=(action 'update')
+  selection=value
+  disabled=property.readonly
+  updateSelectionValue=false as |option selected|}}
+  <div class="checkbox">
+    <label>
+        {{input type="checkbox" checked=selected}}
+        {{option}}
+    </label>
+  </div>
+{{/multiselect-checkboxes}}
