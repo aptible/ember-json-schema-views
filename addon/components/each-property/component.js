@@ -1,6 +1,10 @@
 import Ember from 'ember';
 
 export function getPropertyInputType(property) {
+  if (property.type === 'array') {
+    return 'checkbox';
+  }
+
   if (property.validValues && Array.isArray(property.validValues)) {
     return 'select';
   }
@@ -11,10 +15,6 @@ export function getPropertyInputType(property) {
     } else {
       return 'radio';
     }
-  }
-
-  if (property.type === 'array') {
-    return 'checkbox';
   }
 
   return 'text';
