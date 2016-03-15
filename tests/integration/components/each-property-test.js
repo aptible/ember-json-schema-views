@@ -173,3 +173,25 @@ test('can render nested schema document properties', function(assert) {
   assert.equal(this.$('select[name="address.state"] option').length, 6, 'has 6 choices');
   assert.equal(this.$('input[type="text"][name="address.zip"]').length, 1, 'has a zip text field');
 });
+
+test('`recrusive=false` will prevent recursively iterating child properties', function(assert) {
+  let schema = new Schema(nestedSchema);
+  let { properties } = schema;
+  let document = schema.buildDocument();
+
+  this.setProperties({ document, properties });
+
+  this.render(hbs`
+    {{#each-property properties=properties document=document recursive=false as |key property type|}}
+      {{component (concat 'schema-field-' type) key=key property=property document=document}}
+    {{/each-property}}
+  `);
+
+  assert.equal(this.$('input[type="radio"][name="primaryLocation"]').length, 2, 'has two radios');
+  assert.equal(this.$('.x-toggle-btn').length, 1, 'has a toggle button');
+  assert.equal(this.$('input[type="text"][name="description"]').length, 1, 'has a description text field');
+  assert.equal(this.$('input[type="text"][name="description"]').val(), 'Headquarters', 'description has default value');
+  assert.equal(this.$('input[type="text"][name="address.city"]').length, 0, 'no city text field present');
+  assert.equal(this.$('select[name="address.state"]').length, 0, 'no state select present');
+  assert.equal(this.$('input[type="text"][name="address.zip"]').length, 0, 'no zip text field present');
+});
