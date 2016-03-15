@@ -22,16 +22,17 @@ export function getPropertyInputType(property) {
 
 export default Ember.Component.extend({
   tagName: '',
-
+  recursive: true,
   propertyCollection: Ember.computed('properties.[]', function() {
-    let propertyHash = this.get('properties');
-    let propertyKeys = Object.keys(propertyHash);
+    let { properties, recursive } = this.getProperties('properties', 'recursive');
+    let propertyKeys = Object.keys(properties);
 
     return propertyKeys.map((key) => {
-      let property = propertyHash[key];
+      let property = properties[key];
+      let showChildProperties = recursive && property.properties;
 
       return { key, property, type: getPropertyInputType(property),
-               childProperties: property.properties };
+               showChildProperties, childProperties: property.properties };
     });
   })
 });
