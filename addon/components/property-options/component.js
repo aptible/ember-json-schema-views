@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   tagName: '',
-  isVisible: true,
+  showProperty: true,
   init() {
     this._super(...arguments);
     let property = this.get('property.property');
@@ -20,19 +20,19 @@ export default Ember.Component.extend({
     // If this property depends on other values, set up observers.
     // REVIEW: It would be ideal to do this with computeds, but it's not clear
     // how to set up computeds for either all child properties of an object or
-    // an a run-time generated object key.
+    // a run-time generated object key.
 
     property.dependsOnProperties.forEach((dependsOn) => {
       let callback = Ember.run.bind(this, this._onUpdatedMasterProperty);
-      document.values.addObserver(dependsOn.documentPath, callback);
+      document.values.addObserver(dependsOn.property.documentPath, callback);
     });
 
     this._onUpdatedMasterProperty();
   },
 
-  propertyOptions: Ember.computed('isVisible', function() {
-    let isVisible = this.get('isVisible');
-    return { isVisible };
+  propertyOptions: Ember.computed('showProperty', function() {
+    let showProperty = this.get('showProperty');
+    return { showProperty };
   }),
 
   willDestroyElement() {
@@ -47,7 +47,7 @@ export default Ember.Component.extend({
 
     property.dependsOnProperties.forEach((dependsOn) => {
       let callback = Ember.run.bind(this, this._onUpdatedMasterProperty);
-      document.values.removeObserver(dependsOn.documentPath, callback);
+      document.values.removeObserver(dependsOn.property.documentPath, callback);
     });
   },
 
@@ -55,10 +55,11 @@ export default Ember.Component.extend({
     let property = this.get('property.property');
     let document = this.get('document');
 
-    let isVisible = property.dependsOnProperties.filter((dependsOn) => {
-      return !!document.get(dependsOn.documentPath);
+    let showProperty = property.dependsOnProperties.filter((dependsOn) => {
+      let currentValue = document.get(dependsOn.property.documentPath);
+      return dependsOn.values.indexOf(currentValue) > -1;
     }).length > 0;
 
-    this.setProperties({ isVisible });
+    this.setProperties({ showProperty });
   }
 });
