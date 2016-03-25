@@ -1,12 +1,12 @@
 <div class="radio">
   <div class="radio-button-option">
-    {{#radio-button value=false groupValue=value name=key changed="changed" disabled=property.readonly}}
-      False
+    {{#radio-button value=true groupValue=value name=key changed="changed" disabled=property.readonly}}
+      <span>{{trueLabel}}</span>
     {{/radio-button}}
   </div>
   <div class="radio-button-option">
-    {{#radio-button value=true groupValue=value name=key changed="changed" disabled=property.readonly}}
-      True
+    {{#radio-button value=false groupValue=value name=key changed="changed" disabled=property.readonly}}
+      <span>{{falseLabel}}</span>
     {{/radio-button}}
   </div>
 </div>

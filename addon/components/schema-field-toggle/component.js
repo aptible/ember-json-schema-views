@@ -6,6 +6,7 @@ export const DEFAULT_TRUE_LABEL = 'True';
 export const DEFAULT_FALSE_LABEL = 'False';
 
 export default Ember.Component.extend({
+  classNames: ['schema-field-toggle'],
   init() {
     this._super(...arguments);
 

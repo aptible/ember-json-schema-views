@@ -1,6 +1,10 @@
 import Ember from 'ember';
 
+export const DEFAULT_TRUE_LABEL = 'True';
+export const DEFAULT_FALSE_LABEL = 'False';
+
 export default Ember.Component.extend({
+  classNames: ['schema-field-radio'],
   init() {
     this._super(...arguments);
     let key = this.get('key');
@@ -20,6 +24,14 @@ export default Ember.Component.extend({
     this.set('value', initialValue);
     document.set(key, initialValue);
   },
+
+  trueLabel: Ember.computed('property.displayProperties.labels.trueLabel', function() {
+    return this.get('property.displayProperties.labels.trueLabel') || DEFAULT_TRUE_LABEL;
+  }),
+
+  falseLabel: Ember.computed('property.displayProperties.labels.falseLabel', function() {
+    return this.get('property.displayProperties.labels.falseLabel') || DEFAULT_FALSE_LABEL;
+  }),
 
   actions: {
     changed() {
