@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  classNames: ['schema-field-checkbox'],
   init() {
     this._super(...arguments);
     let key = this.get('key');

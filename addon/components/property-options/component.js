@@ -54,11 +54,12 @@ export default Ember.Component.extend({
   _onUpdatedMasterProperty() {
     let property = this.get('property.property');
     let document = this.get('document');
+    let dependencyCount = property.dependsOnProperties.length;
 
     let showProperty = property.dependsOnProperties.filter((dependsOn) => {
       let currentValue = document.get(dependsOn.property.documentPath);
       return dependsOn.values.indexOf(currentValue) > -1;
-    }).length > 0;
+    }).length === dependencyCount;
 
     this.setProperties({ showProperty });
   }
