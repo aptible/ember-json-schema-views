@@ -46,8 +46,7 @@ export default Ember.Component.extend({
     }
 
     property.dependsOnProperties.forEach((dependsOn) => {
-      let callback = Ember.run.bind(this, this._onUpdatedMasterProperty);
-      document.values.removeObserver(dependsOn.property.documentPath, callback);
+      document.values.removeObserver(dependsOn.property.documentPath)
     });
   },
 
@@ -55,12 +54,19 @@ export default Ember.Component.extend({
     let property = this.get('property.property');
     let document = this.get('document');
     let dependencyCount = property.dependsOnProperties.length;
+    let dependentValue = null;
 
     let showProperty = property.dependsOnProperties.filter((dependsOn) => {
       let currentValue = document.get(dependsOn.property.documentPath);
       return dependsOn.values.indexOf(currentValue) > -1;
     }).length === dependencyCount;
 
+
+    if (showProperty) {
+      dependentValue = { array: [], string: '', 'boolean': null }[property.type];
+    }
+
+    document.set(property.documentPath, dependentValue);
     this.setProperties({ showProperty });
   }
 });

@@ -10,7 +10,7 @@ export default Ember.Component.extend({
     let key = this.get('key');
     let document = this.get('document');
     let defaultValue = this.get('property.default');
-    let initialValue =  '';
+    let initialValue =  null;
     let documentValue = document.get(key);
 
     if (typeof defaultValue !== 'undefined') {
@@ -21,8 +21,10 @@ export default Ember.Component.extend({
       initialValue = documentValue;
     }
 
-    this.set('value', initialValue);
-    document.set(key, initialValue);
+    if (initialValue !== null) {
+      this.set('value', initialValue);
+      document.set(key, initialValue);
+    }
   },
 
   trueLabel: Ember.computed('property.displayProperties.labels.trueLabel', function() {
