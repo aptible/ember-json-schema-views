@@ -18,11 +18,12 @@ export default Ember.Component.extend({
     });
 
     property.dependsOnProperties.forEach((dependsOn) => {
-      let callback = Ember.run.bind(this, this._onUpdatedMasterProperty);
-      document.values.addObserver(dependsOn.property.documentPath, callback);
+      this.callback = Ember.run.bind(this, this._onUpdatedMasterProperty);
+      document.values.addObserver(dependsOn.property.documentPath, this.callback);
     });
 
-    Ember.run.next(this, this._onUpdatedMasterProperty);
+    document.values.addObserver('didLoad', this.callback);
+    this._onUpdatedMasterProperty();
   },
 
   propertyOptions: Ember.computed('showProperty', function() {
@@ -41,8 +42,10 @@ export default Ember.Component.extend({
     }
 
     property.dependsOnProperties.forEach((dependsOn) => {
-      document.values.removeObserver(dependsOn.property.documentPath)
+      document.values.removeObserver(dependsOn.property.documentPath);
     });
+
+    document.values.removeObserver('didLoad', this.callback);
   },
 
   _onUpdatedMasterProperty() {

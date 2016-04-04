@@ -4,7 +4,7 @@ export const DEFAULT_TRUE_LABEL = 'True';
 export const DEFAULT_FALSE_LABEL = 'False';
 
 export default Ember.Component.extend({
-  classNames: ['schema-field-radio'],
+  classNames: ['schema-field-component', 'schema-field-radio'],
   init() {
     this._super(...arguments);
     let key = this.get('key');

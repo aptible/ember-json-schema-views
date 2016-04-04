@@ -1,9 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import Schema from 'ember-json-schema-document/models/schema';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
-
-Error.stackTraceLimit = 100;
 
 let schemaBody = {
   '$schema': 'http://json-schema.org/draft-04/schema#',
@@ -51,7 +48,7 @@ let schemaBody = {
   }
 };
 
-moduleForComponent('each-property', {
+moduleForComponent('dependent-properties', {
   integration: true
 });
 
@@ -75,12 +72,11 @@ test('renders dependent properties', function(assert) {
   assert.equal(this.$('select[name="vulnerabilityScanner.frequency"]').length, 0, 'doesn\'t show frequency select');
   assert.equal(this.$('input[name="vulnerabilityScanner.whyNot"]').length, 1, 'shows whynot text');
 
-  Ember.run(() => {
-    this.$('input[name="vulnerabilityScanner.usesVulnerabilityScanners"][value="true"]').click();
-    this.$('input[name="vulnerabilityScanner.usesVulnerabilityScanners"]').trigger('change');
-  });
+  this.$('input[name="vulnerabilityScanner.usesVulnerabilityScanners"][value="true"]').click();
+  this.$('input[name="vulnerabilityScanner.usesVulnerabilityScanners"]').trigger('change');
 
   assert.equal(this.$('input[name="vulnerabilityScanner.provider"]').length, 1, 'shows provider');
   assert.equal(this.$('select[name="vulnerabilityScanner.frequency"]').length, 1, 'shows frequency select');
   assert.equal(this.$('input[name="vulnerabilityScanner.whyNot"]').length, 0, 'doesn\'t shows whynot text');
+
 });
