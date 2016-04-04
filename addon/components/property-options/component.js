@@ -17,17 +17,12 @@ export default Ember.Component.extend({
       dependsOnProperties: property.dependsOnProperties
     });
 
-    // If this property depends on other values, set up observers.
-    // REVIEW: It would be ideal to do this with computeds, but it's not clear
-    // how to set up computeds for either all child properties of an object or
-    // a run-time generated object key.
-
     property.dependsOnProperties.forEach((dependsOn) => {
       let callback = Ember.run.bind(this, this._onUpdatedMasterProperty);
       document.values.addObserver(dependsOn.property.documentPath, callback);
     });
 
-    this._onUpdatedMasterProperty();
+    Ember.run.next(this, this._onUpdatedMasterProperty);
   },
 
   propertyOptions: Ember.computed('showProperty', function() {
@@ -54,19 +49,16 @@ export default Ember.Component.extend({
     let property = this.get('property.property');
     let document = this.get('document');
     let dependencyCount = property.dependsOnProperties.length;
-    let dependentValue = null;
 
     let showProperty = property.dependsOnProperties.filter((dependsOn) => {
       let currentValue = document.get(dependsOn.property.documentPath);
       return dependsOn.values.indexOf(currentValue) > -1;
     }).length === dependencyCount;
 
-
-    if (showProperty) {
-      dependentValue = { array: [], string: '', 'boolean': null }[property.type];
-    }
-
-    document.set(property.documentPath, dependentValue);
     this.setProperties({ showProperty });
+
+    if (!showProperty) {
+      document.set(property.documentPath, null);
+    }
   }
 });
