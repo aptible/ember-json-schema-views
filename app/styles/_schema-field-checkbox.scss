@@ -1,0 +1,6 @@
+.schema-field-checkbox {
+  [type="checkbox"] + span::before {
+    vertical-align: -5px;
+    border-radius: 5px;
+  }
+}

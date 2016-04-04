@@ -1,13 +1,13 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  classNames: ['schema-field-checkbox'],
+  classNames: ['schema-field-component', 'schema-field-checkbox'],
   init() {
     this._super(...arguments);
     let key = this.get('key');
     let document = this.get('document');
     let defaultValue = this.get('property.default');
-    let initialValue =  [];
+    let initialValue =  null;
     let documentValue = document.get(key);
 
     if (typeof defaultValue !== 'undefined') {
@@ -18,8 +18,10 @@ export default Ember.Component.extend({
       initialValue = documentValue;
     }
 
-    this.set('value', initialValue);
-    document.set(key, initialValue);
+    if (initialValue !== null) {
+      this.set('value', initialValue);
+      document.set(key, initialValue);
+    }
   },
 
   actions: {
