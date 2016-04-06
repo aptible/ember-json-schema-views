@@ -60,8 +60,31 @@ export default Ember.Component.extend({
 
     this.setProperties({ showProperty });
 
-    if (!showProperty) {
+    if (showProperty) {
+      this._setDefaultValue();
+    } else {
       document.set(property.documentPath, null);
+    }
+  },
+
+  _setDefaultValue() {
+    let document = this.get('document');
+    let property = this.get('property.property');
+    let defaultValue = this.get('property.default');
+    let value;
+
+    if (!Ember.isNone(document.get(property.documentPath))) {
+      return;
+    }
+
+    if (Ember.isNone(defaultValue)) {
+      value = { 'array': [], 'string': '', 'object': {} }[property.type];
+    } else {
+      value = defaultValue;
+    }
+
+    if (!Ember.isNone(value)) {
+      document.set(property.documentPath, value);
     }
   }
 });
