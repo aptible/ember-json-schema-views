@@ -52,10 +52,8 @@
     box-shadow: 0px 0px 4px 0px #66E09A;
   }
 
-  [type="radio"]:focus + span::after,
-  [type="checkbox"]:focus + span::after {
-    font-size: 1.5em;
-    line-height: 1;
-    vertical-align: -0.125em;
+  [type="radio"]:focus + span::before,
+  [type="checkbox"]:focus + span::before {
+    box-shadow: 0px 0px 4px 0px blue;
   }
 }
