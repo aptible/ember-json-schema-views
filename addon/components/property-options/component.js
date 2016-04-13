@@ -61,7 +61,7 @@ export default Ember.Component.extend({
       if (dependsOn.property.type === 'array') {
         // For array types, we are checking to see if any of the current values
         // are included in `dependsOn.values`.
-        return currentValue.filter((value) => {
+        return Array.isArray(currentValue) && currentValue.filter((value) => {
           return dependsOn.values.indexOf(value) > -1;
         }).length > 0;
       } else {
