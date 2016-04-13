@@ -54,8 +54,20 @@ export default Ember.Component.extend({
     let dependencyCount = property.dependsOnProperties.length;
 
     let showProperty = property.dependsOnProperties.filter((dependsOn) => {
+      // `dependsOn.values` is an array of required values.  If the property's
+      // current value is included in this array, it is now required
       let currentValue = document.get(dependsOn.property.documentPath);
-      return dependsOn.values.indexOf(currentValue) > -1;
+
+      if (dependsOn.property.type === 'array') {
+        // For array types, we are checking to see if any of the current values
+        // are included in `dependsOn.values`.
+        return currentValue.filter((value) => {
+          return dependsOn.values.indexOf(value) > -1;
+        }).length > 0;
+      } else {
+        return dependsOn.values.indexOf(currentValue) > -1;
+      }
+
     }).length === dependencyCount;
 
     this.setProperties({ showProperty });
