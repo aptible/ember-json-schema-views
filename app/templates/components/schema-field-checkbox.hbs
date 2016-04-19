@@ -6,7 +6,7 @@
   disabled=property.readonly
   name=key
   updateSelectionValue=false as |option selected|}}
-  <div class="checkbox">
+  <div class="checkbox {{if property.readonly 'disabled' null}}">
     <label>
         {{input type="checkbox" checked=selected}}
         <span>{{option}}</span>
