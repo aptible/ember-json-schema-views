@@ -56,4 +56,20 @@
   [type="checkbox"]:focus + span::before {
     box-shadow: 0px 0px 4px 0px blue;
   }
+
+  [type="radio"]:disabled + span::before,
+  [type="checkbox"]:disabled + span::before {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  .radio-button.disabled label,
+  .checkbox.disabled label {
+    cursor: default;
+    pointer-events: disabled;
+
+    &:hover {
+      background: none;
+    }
+  }
 }
