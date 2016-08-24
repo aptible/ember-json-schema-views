@@ -36,22 +36,23 @@ export default Ember.Component.extend({
   }),
 
   trueLabel: Ember.computed('property.displayProperties.labels.trueLabel', function() {
-    return this.get('property.displayProperties.labels.trueLabel') || DEFAULT_TRUE_LABEL;
+    return `${this.get('property.displayProperties.labels.trueLabel') || DEFAULT_TRUE_LABEL}::true`;
   }),
 
   falseLabel: Ember.computed('property.displayProperties.labels.falseLabel', function() {
-    return this.get('property.displayProperties.labels.falseLabel') || DEFAULT_FALSE_LABEL;
+    return `${this.get('property.displayProperties.labels.falseLabel') || DEFAULT_FALSE_LABEL}::false`;
   }),
 
   name: Ember.computed.alias('key'),
 
   actions: {
-    onToggle(value) {
+    onToggle(toggleParams) {
+      let { newValue }= toggleParams;
       let document = this.get('document');
 
-      document.set(this.get('key'), value);
-      this.set('value', value);
-      this.sendAction('changed', value);
+      document.set(this.get('key'), newValue);
+      this.set('value', newValue);
+      this.sendAction('changed', newValue);
     }
   }
 });
