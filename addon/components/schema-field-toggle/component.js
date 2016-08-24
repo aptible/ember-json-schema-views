@@ -25,6 +25,10 @@ export default Ember.Component.extend({
     }
 
     this.set('value', initialValue);
+
+    if (initialValue !== documentValue) {
+      document.set(key, initialValue);
+    }
   },
 
   toggleSize: Ember.computed('property.displayProperties.toggleSize', function() {
@@ -47,7 +51,7 @@ export default Ember.Component.extend({
 
   actions: {
     onToggle(toggleParams) {
-      let { newValue }= toggleParams;
+      let { newValue } = toggleParams;
       let document = this.get('document');
 
       document.set(this.get('key'), newValue);
