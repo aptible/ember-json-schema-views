@@ -1,12 +1,12 @@
 {{#each propertyCollection as |property|}}
   {{#property-options document=document property=property as |propertyOptions document|}}
 
+    {{yield property.key property.property property.type propertyOptions}}
+
     {{#if property.showChildProperties}}
       {{#each-property properties=property.childProperties document=document as |childKey childProperty childType childOptions|}}
         {{yield (concat (concat property.key '.') childKey) childProperty childType childOptions}}
       {{/each-property}}
-    {{else}}
-      {{yield property.key property.property property.type propertyOptions}}
     {{/if}}
 
   {{/property-options}}
