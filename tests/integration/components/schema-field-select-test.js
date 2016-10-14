@@ -52,6 +52,18 @@ let objectSchema = {
   ]
 };
 
+let noDefaultStateProperty = Ember.$.extend(true, {}, stateProperty);
+delete noDefaultStateProperty.default;
+
+let selectWithoutPrompt = {
+  '$schema': 'http://json-schema.org/draft-04/schema#',
+  'id': 'http://jsonschema.net',
+  'type': 'object',
+  'properties': {
+    'state': noDefaultStateProperty
+  }
+};
+
 let disabledPropertySchema = {
   'type': 'object',
   'properties': {
@@ -271,4 +283,16 @@ test('When `readonly` is false, select should not be disabled', function(assert)
   assert.ok(!select.is(':disabled'), 'select is not disabled');
   assert.equal(select.val(), 'IN', 'default value is used in select');
   assert.equal(document.get('state'), 'IN', 'document value is correct');
+});
+
+test('When a display prompt and default value are missing, use first valid value as default value', function(assert) {
+  let schema = new Schema(selectWithoutPrompt);
+  let document = schema.buildDocument();
+  let property = schema.properties.state;
+  let [expected] = noDefaultStateProperty.enum;
+
+  this.setProperties({ key: 'state', property, document });
+  this.render(hbs('{{schema-field-select key=key property=property document=document}}'));
+
+  assert.equal(document.get('state'), expected, 'Initial value is first element in enum array');
 });
