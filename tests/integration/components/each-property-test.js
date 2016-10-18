@@ -1,4 +1,3 @@
-import Ember from 'ember';
 import { moduleForComponent, test } from 'ember-qunit';
 import Schema from 'ember-json-schema-document/models/schema';
 import hbs from 'htmlbars-inline-precompile';
@@ -195,25 +194,4 @@ test('`recrusive=false` will prevent recursively iterating child properties', fu
   assert.equal(this.$('input[type="text"][name="address.city"]').length, 0, 'no city text field present');
   assert.equal(this.$('select[name="address.state"]').length, 0, 'no state select present');
   assert.equal(this.$('input[type="text"][name="address.zip"]').length, 0, 'no zip text field present');
-});
-
-test('`visible=false` properties will not be rendered', function(assert) {
-  let invisiblePropSchema = Ember.$.extend({}, {}, flatSchema);
-  invisiblePropSchema.properties.primaryLocation._visible = false;
-  let schema = new Schema(invisiblePropSchema);
-  let { properties } = schema;
-  let document = schema.buildDocument();
-
-  this.setProperties({ document, properties });
-
-  this.render(hbs`
-    {{#each-property properties=properties document=document as |key property type options|}}
-      {{#if options.showProperty}}
-        {{component (concat 'schema-field-' type) key=key property=property document=document}}
-      {{/if}}
-    {{/each-property}}
-  `);
-
-  assert.equal(this.$('input[type="radio"][name="primaryLocation"]').length, 0, '`primaryLocation` property is hidden.');
-  assert.equal(this.$('input[type="text"][name="description"]').length, 1, 'has a description text field');
 });

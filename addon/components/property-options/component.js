@@ -8,11 +8,6 @@ export default Ember.Component.extend({
     let property = this.get('property.property');
     let document = this.get('document');
 
-    if (!property.visible) {
-      this.set('showProperty', false);
-      return;
-    }
-
     if (!property.isDependentProperty) {
       return;
     }
