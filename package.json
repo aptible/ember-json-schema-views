@@ -43,7 +43,7 @@
     "ember-disable-prototype-extensions": "^1.0.0",
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
-    "ember-json-schema-document": "0.1.6",
+    "ember-json-schema-document": "0.1.5",
     "ember-multiselect-checkboxes": "0.8.0",
     "ember-one-way-input": "0.3.0",
     "ember-radio-button": "1.0.7",
