@@ -9,7 +9,7 @@
   <div class="checkbox {{if property.readonly 'disabled' null}}">
     <label>
         {{input type="checkbox" checked=selected}}
-        <span>{{option}}</span>
+        <span>{{option}} {{recommended-label value=option property=property}}</span>
     </label>
   </div>
 {{/multiselect-checkboxes}}

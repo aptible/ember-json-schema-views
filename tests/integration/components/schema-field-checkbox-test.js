@@ -14,6 +14,10 @@ let schemaJson = {
       'items': {
         'type': 'string',
         'enum': allStates
+      },
+      'displayProperties': {
+        'recommendedValue': ['IN', 'CA'],
+        'recommendedLabel': '(recommended!)'
       }
     }
   }
@@ -36,10 +40,16 @@ test('Basic UI', function(assert) {
   });
 
   let checkedStates = ['IN', 'NY', 'CA'];
+  let recommendedStates = ['IN', 'CA'];
+  let recommendedTest = /recommended\!/;
   checkBoxes(checkedStates);
 
   checkedStates.forEach((state) => {
     assert.ok(getCheckbox(state).is(':checked'), `${state} is checked.`);
+  });
+
+  recommendedStates.forEach((state) => {
+    assert.ok(recommendedTest.test(getCheckbox(state).next('span').text()), 'has recommended label');
   });
 
   assert.deepEqual(this.document.get('states'), ['IN', 'NY', 'CA'], 'document values are set');
