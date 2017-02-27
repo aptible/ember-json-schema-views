@@ -8,7 +8,11 @@ let stateProperty = {
   'type': 'string',
   'default': 'NY',
   'enum': ['RI', 'NY', 'IN', 'CA', 'UT', 'CO'],
-  'title': 'State'
+  'title': 'State',
+  'displayProperties': {
+    'recommendedValue': 'CA',
+    'recommendedLabel': '(recommended!)'
+  }
 };
 
 let arraySchema = {
@@ -99,6 +103,18 @@ moduleForComponent('schema-field-select', {
     this.nestedKey = 'address.state';
     this.nestedProperty = this.objectProperties.address.properties.state;
   }
+});
+
+test('Recommneded values show recommended label', function(assert) {
+  let newItem = this.arrayDocument.addItem();
+  let recommendedTest = /recommended\!/;
+
+  this.setProperties({ key: this.key, property: this.arrayProperty, newItem });
+  this.render(hbs('{{schema-field-select key=key property=property document=newItem}}'));
+
+  let CAOption = this.$('select option:contains(CA)');
+  assert.ok(recommendedTest.test(CAOption.text()), 'shows recommended label');
+  assert.equal(this.$('select option').length, 6, 'has all 6 options');
 });
 
 // Test group 1: Adding item to array-base document
