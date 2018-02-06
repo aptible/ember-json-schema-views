@@ -1,15 +1,17 @@
-import Ember from 'ember';
 export const DEFAULT_LABEL = `(recommended)`;
+import { alias } from '@ember/object/computed';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: '',
 
-  recommendedValue: Ember.computed.alias('property.displayProperties.recommendedValue'),
-  recommendedLabel: Ember.computed('property.displayProperties.recommendedLabel', function() {
+  recommendedValue: alias('property.displayProperties.recommendedValue'),
+  recommendedLabel: computed('property.displayProperties.recommendedLabel', function() {
     return this.get('property.displayProperties.recommendedLabel') || DEFAULT_LABEL;
   }),
 
-  isRecommended: Ember.computed('value', 'recommendedValue', function() {
+  isRecommended: computed('value', 'recommendedValue', function() {
     let { value, recommendedValue } = this.getProperties('value', 'recommendedValue');
     if (Array.isArray(recommendedValue)) {
       return recommendedValue.indexOf(value) > -1;

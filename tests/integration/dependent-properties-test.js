@@ -25,7 +25,8 @@ let arrayDependencySchema = {
 
         'other': {
           'title': 'Which other provider do you use?',
-          'type': 'text'
+          'type': 'text',
+          displayProperties: { placeholder: 'other' }
         }
       },
 
@@ -46,14 +47,13 @@ let schemaBody = {
         'usesVulnerabilityScanners': {
           'type': 'boolean',
           'default': false,
-          'displayProperties': {
-            'title': 'Do you use vulnerability scanners?'
-          }
+          'title': 'Do you use vulnerability scanners?'
         },
 
         'provider': {
           'title': 'Which provider do you use?',
-          'type': 'text'
+          'type': 'text',
+          displayProperties: { placeholder: 'provider' }
         },
 
         'frequency': {
@@ -64,7 +64,8 @@ let schemaBody = {
 
         'whyNot': {
           'title': 'Why don\'t you use a vulnerability scanner?',
-          'type': 'text'
+          'type': 'text',
+          displayProperties: { placeholder: 'why not' }
         }
       },
 

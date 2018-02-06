@@ -1,8 +1,14 @@
-import Ember from 'ember';
+import { get } from '@ember/object';
+import Component from '@ember/component';
+import { computed } from '@ember/object';
 
 export function getPropertyInputType(property) {
   if (property.type === 'array') {
     return 'checkbox';
+  }
+
+  if (property.type === 'object') {
+    return 'object';
   }
 
   if (property.validValues && Array.isArray(property.validValues)) {
@@ -10,7 +16,7 @@ export function getPropertyInputType(property) {
   }
 
   if (property.type === 'boolean') {
-    if (Ember.get(property, 'displayProperties.useToggle')) {
+    if (get(property, 'displayProperties.useToggle')) {
       return 'toggle';
     } else {
       return 'radio';
@@ -20,10 +26,10 @@ export function getPropertyInputType(property) {
   return 'text';
 }
 
-export default Ember.Component.extend({
+export default Component.extend({
   tagName: '',
   recursive: true,
-  propertyCollection: Ember.computed('properties.[]', function() {
+  propertyCollection: computed('properties.[]', function() {
     let { properties, recursive } = this.getProperties('properties', 'recursive');
     let propertyKeys = Object.keys(properties);
 

@@ -1,7 +1,7 @@
 import { moduleForComponent, test } from 'ember-qunit';
+import $ from 'jquery';
 import Schema from 'ember-json-schema-document/models/schema';
 import hbs from 'htmlbars-inline-precompile';
-import Ember from 'ember';
 
 let isDeveloperProperty = {
   'id': 'http://jsonschema.net/0/is-developer',
@@ -114,7 +114,7 @@ test('Array document: has a toggle element with labels', function(assert) {
   this.render(hbs('{{schema-field-toggle key=key property=property document=newItem}}'));
 
   assert.ok(this.$('.toggle-prefix:contains(Deny)').length, 'Has a false label');
-  assert.ok(this.$('.toggle-postfix:contains(Confirm)').length, 'Has a true label');
+  assert.ok(this.$('.toggle-prefix:contains(Confirm)').length, 'Has a true label');
 
   let toggle = this.$('.x-toggle-btn');
   assert.ok(toggle.length, 'has a toggle button');
@@ -158,7 +158,7 @@ test('Array document: updates document when changed', function(assert) {
 });
 
 test('Toggle with disabled labels shouldn\'t show labels', function(assert) {
-  let obj = Ember.$.extend(true, {}, isDeveloperProperty);
+  let obj = $.extend(true, {}, isDeveloperProperty);
   obj.displayProperties.showLabels = false;
   let schemaJSON = { 'type': 'object', 'properties': { 'developer': obj } };
   let schema = new Schema(schemaJSON);
@@ -169,12 +169,16 @@ test('Toggle with disabled labels shouldn\'t show labels', function(assert) {
   this.setProperties({ schema, doc, property, key });
   this.render(hbs('{{schema-field-toggle key=key property=property document=doc}}'));
 
-  assert.equal(this.$('.toggle-prefix:contains(Deny)').length, 0, 'Has no false label');
-  assert.equal(this.$('.toggle-postfix:contains(Confirm)').length, 0, 'Has no true label');
+  const falseLabel = this.$('.toggle-prefix:contains(Deny)');
+  const trueLabel = this.$('.toggle-prefix:contains(Confirm)');
+  assert.equal(falseLabel.length, 1, 'Has a false label element');
+  assert.equal(falseLabel[0].style.display, 'none', '...but it is not visible');
+  assert.equal(trueLabel.length, 1, 'Has a true label element');
+  assert.equal(trueLabel[0].style.display, 'none', '...but it is not visible');
 });
 
 test('Toggle with custom labels', function(assert) {
-  let obj = Ember.$.extend(true, {}, isDeveloperProperty);
+  let obj = $.extend(true, {}, isDeveloperProperty);
   obj.displayProperties.showLabels = true;
   obj.displayProperties.labels.trueLabel = 'Enabled';
   obj.displayProperties.labels.falseLabel = 'Disabled';
@@ -188,11 +192,11 @@ test('Toggle with custom labels', function(assert) {
   this.render(hbs('{{schema-field-toggle key=key property=property document=doc}}'));
 
   assert.equal(this.$('.toggle-prefix:contains(Disabled)').length, 1, 'Has enabled label');
-  assert.equal(this.$('.toggle-postfix:contains(Enabled)').length, 1, 'Has disabled label');
+  assert.equal(this.$('.toggle-prefix:contains(Enabled)').length, 1, 'Has disabled label');
 });
 
 test('Toggle default labels', function(assert) {
-  let obj = Ember.$.extend(true, {}, isDeveloperProperty);
+  let obj = $.extend(true, {}, isDeveloperProperty);
   obj.displayProperties.showLabels = true;
   obj.displayProperties.labels = undefined;
   let schemaJSON = { 'type': 'object', 'properties': { 'developer': obj } };
@@ -204,8 +208,8 @@ test('Toggle default labels', function(assert) {
   this.setProperties({ schema, doc, property, key });
   this.render(hbs('{{schema-field-toggle key=key property=property document=doc}}'));
 
-  assert.equal(this.$('.toggle-prefix:contains(False)').length, 1, 'Has True label');
-  assert.equal(this.$('.toggle-postfix:contains(True)').length, 1, 'Has False label');
+  assert.equal(this.$('.toggle-prefix:contains(True)').length, 1, 'Has True label');
+  assert.equal(this.$('.toggle-prefix:contains(False)').length, 1, 'Has False label');
 });
 
 test('When `readonly` is true, toggle should be disabled', function(assert) {
@@ -223,7 +227,7 @@ test('When `readonly` is true, toggle should be disabled', function(assert) {
 });
 
 test('When `readonly` is false, toggle should not be disabled', function(assert) {
-  let schemaProperty = Ember.$.extend(true, {}, disabledPropertySchema);
+  let schemaProperty = $.extend(true, {}, disabledPropertySchema);
   schemaProperty.properties.developer.readonly = false;
   let schema = new Schema(schemaProperty);
   let document = schema.buildDocument();

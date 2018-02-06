@@ -1,9 +1,22 @@
- <select name="{{key}}" {{action 'update' on="change"}} class="form-control" disabled={{property.readonly}}>
-  {{#if property.displayProperties.prompt}}
-    <option disabled selected={{if (not value) true null}}>{{property.displayProperties.prompt}}</option>
-  {{/if}}
+<select
+  name={{key}}
+  {{action 'update' on="change"}}
+  class="form-control"
+  disabled={{property.readonly}}>
 
-  {{#each property.validValues as |option|}}
-    <option selected={{if (eq value option) true null}} value={{option}}>{{option}} <span>{{option}} {{recommended-label value=option property=property}}</span></option>
-  {{/each}}
+    {{#if property.displayProperties.prompt}}
+      <option
+        disabled
+        selected={{if (not value) true null}}>
+          {{property.displayProperties.prompt}}
+      </option>
+    {{/if}}
+
+    {{#each property.validValues as |option|}}
+      <option
+        selected={{if (eq value option) true null}} value={{option}}>
+          {{option}}
+          <span>{{option}} {{recommended-label value=option property=property}}</span>
+      </option>
+    {{/each}}
 </select>

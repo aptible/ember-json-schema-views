@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import $ from 'jquery';
 import { moduleForComponent, test } from 'ember-qunit';
 import Schema from 'ember-json-schema-document/models/schema';
 import hbs from 'htmlbars-inline-precompile';
@@ -56,7 +56,7 @@ let objectSchema = {
   ]
 };
 
-let noDefaultStateProperty = Ember.$.extend(true, {}, stateProperty);
+let noDefaultStateProperty = $.extend(true, {}, stateProperty);
 delete noDefaultStateProperty.default;
 
 let selectWithoutPrompt = {
@@ -107,7 +107,7 @@ moduleForComponent('schema-field-select', {
 
 test('Recommneded values show recommended label', function(assert) {
   let newItem = this.arrayDocument.addItem();
-  let recommendedTest = /recommended\!/;
+  let recommendedTest = /recommended!/;
 
   this.setProperties({ key: this.key, property: this.arrayProperty, newItem });
   this.render(hbs('{{schema-field-select key=key property=property document=newItem}}'));
@@ -137,7 +137,6 @@ test('Array document: uses existing document value if present', function(assert)
   this.render(hbs('{{schema-field-select key=key property=property document=newItem}}'));
 
   let select = this.$('select');
-
   assert.equal(select.val(), newItem.get(this.key), 'documents current value used as default');
 });
 
@@ -286,7 +285,7 @@ test('When `readonly` is true, select should be disabled', function(assert) {
 });
 
 test('When `readonly` is false, select should not be disabled', function(assert) {
-  let schemaProperty = Ember.$.extend(true, {}, disabledPropertySchema);
+  let schemaProperty = $.extend(true, {}, disabledPropertySchema);
   schemaProperty.properties.state.readonly = false;
   let schema = new Schema(schemaProperty);
   let document = schema.buildDocument();

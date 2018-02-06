@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import $ from 'jquery';
 import { moduleForComponent, test } from 'ember-qunit';
 import Schema from 'ember-json-schema-document/models/schema';
 import hbs from 'htmlbars-inline-precompile';
@@ -155,7 +155,7 @@ test('When `readonly` is true, radios should be disabled', function(assert) {
 });
 
 test('When `readonly` is false, radios should not be disabled', function(assert) {
-  let propertySchema = Ember.$.extend(true, {}, disabledPropertySchema);
+  let propertySchema = $.extend(true, {}, disabledPropertySchema);
   propertySchema.properties.developer.readonly = false;
   let schema = new Schema(propertySchema);
   let document = schema.buildDocument();
