@@ -1,9 +1,8 @@
-{{one-way-input
-  value=value
-  update=(action "update")
-  autofocus=true
-  name=key
-  placeholder=property.displayProperties.placeholder
+<input
   class="form-control"
-  disabled=disabled
-}}
+  type="text"
+  value={{value}}
+  name={{key}}
+  placeholder={{property.displayProperties.placeholder}}
+  disabled={{property.readonly}}
+  oninput={{action "update" value="target.value"}}>

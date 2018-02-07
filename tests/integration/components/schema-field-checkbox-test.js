@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import { moduleForComponent, test } from 'ember-qunit';
 import Schema from 'ember-json-schema-document/models/schema';
 import hbs from 'htmlbars-inline-precompile';
@@ -41,7 +42,7 @@ test('Basic UI', function(assert) {
 
   let checkedStates = ['IN', 'NY', 'CA'];
   let recommendedStates = ['IN', 'CA'];
-  let recommendedTest = /recommended\!/;
+  let recommendedTest = /recommended!/;
   checkBoxes(checkedStates);
 
   checkedStates.forEach((state) => {
@@ -77,7 +78,7 @@ test('Uses existing document values when present', function(assert) {
 });
 
 function getCheckbox(value) {
-  return this.$(`label:contains(${value}) input`);
+  return $(`label:contains(${value}) input`);
 }
 
 function checkBoxes(states) {

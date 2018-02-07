@@ -2,8 +2,6 @@ import { moduleForComponent, test } from 'ember-qunit';
 import Schema from 'ember-json-schema-document/models/schema';
 import hbs from 'htmlbars-inline-precompile';
 
-Error.stackTraceLimit = 100;
-
 let flatSchema = {
   '$schema': 'http://json-schema.org/draft-04/schema#',
   'id': 'http://jsonschema.net',

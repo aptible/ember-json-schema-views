@@ -1,23 +1,26 @@
-import Ember from 'ember';
+import Mixin from '@ember/object/mixin';
+import { schedule } from '@ember/runloop';
+import { computed } from '@ember/object';
 
-export default Ember.Mixin.create({
+export default Mixin.create({
   init() {
     this._super(...arguments);
-
     let key = this.get('key');
-    let document = this.get('document');
+    let jsonDocument = this.get('document');
     let defaultValue = this.get('property.default');
-    let initialValue = document.get(key) || defaultValue || '';
 
-    this.set('value', initialValue);
-    document.set(key, initialValue);
+    schedule('afterRender', () => {
+      let initialValue = jsonDocument.get(key) || defaultValue || '';
+      this.set('value', initialValue);
+      jsonDocument.set(key, initialValue);
+    });
   },
 
   getCurrentValue() {
     this.$('input').val();
   },
 
-  disabled: Ember.computed('property.readonly', function() {
+  disabled: computed('property.readonly', function() {
     if (this.get('property.readonly')) {
       return 'disabled';
     }
@@ -30,13 +33,12 @@ export default Ember.Mixin.create({
       if (typeof value === 'undefined') {
         value = this.getCurrentValue();
       }
-
-      let document = this.get('document');
+      let jsonDocument = this.get('document');
       let key = this.get('key');
 
-      document.set(key, value);
+      jsonDocument.set(key, value);
       this.set('value', value);
-      this.sendAction('changed', value);
+      this.sendAction('changed', value);  // eslint-disable-line ember/closure-actions
     }
   }
 });
