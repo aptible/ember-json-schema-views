@@ -1,8 +1,8 @@
-export const DEFAULT_LABEL = `(recommended)`;
 import { alias } from '@ember/object/computed';
 import { computed } from '@ember/object';
 import Component from '@ember/component';
 
+export const DEFAULT_LABEL = `(recommended)`;
 export default Component.extend({
   tagName: '',
 

@@ -15,7 +15,6 @@
     {{#each property.validValues as |option|}}
       <option
         selected={{if (eq value option) true null}} value={{option}}>
-          {{option}}
           <span>{{option}} {{recommended-label value=option property=property}}</span>
       </option>
     {{/each}}
