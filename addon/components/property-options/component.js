@@ -27,6 +27,7 @@ export default Component.extend({
     });
 
     document.values.addObserver('didLoad', this._updateProperties.bind(this));
+    this._updateProperties();
   },
 
   _shouldPropertyBeVisible() {
@@ -48,7 +49,7 @@ export default Component.extend({
       } else {
         return dependsOn.values.indexOf(currentValue) > -1;
       }
-    }).length
+    }).length;
 
     return validDependencies === dependencyCount;
   },
@@ -60,17 +61,17 @@ export default Component.extend({
     if (showProperty !== this.get('propertyOptions.showProperty')) {
       this.set('propertyOptions.showProperty', showProperty);
     }
+
     schedule('afterRender', () => {
       if (showProperty) {
-        this._setDefaultValue();
-      } else {
-      //} else if (document.get(property.documentPath) !== null) {
+        this._setVisibleValue();
+      } else if (document.get(property.documentPath) !== null) {
         document.set(property.documentPath, null);
       }
     });
   },
 
-  _setDefaultValue() {
+  _setVisibleValue() {
     let document = this.get('document');
     let property = this.get('property.property');
     let defaultValue = this.get('property.default');
@@ -81,7 +82,7 @@ export default Component.extend({
     }
 
     if (isNone(defaultValue)) {
-      value = { 'array': [], 'string': '', 'object': {} }[property.type];
+      value = { 'array': [], 'string': '', 'object': {}, 'boolean': false }[property.type];
     } else {
       value = defaultValue;
     }
